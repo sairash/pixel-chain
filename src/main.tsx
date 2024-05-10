@@ -6,6 +6,7 @@ import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import SecondPage from "./pages/SecondPage.tsx";
+import ScanQrPage from "./pages/ScanQrPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -13,6 +14,7 @@ const router = createBrowserRouter([
     element: <App />,
   },
   { path: "/events", element: <SecondPage /> },
+  { path: "scan", element: <ScanQrPage /> },
 ]);
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
