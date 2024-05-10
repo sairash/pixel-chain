@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Avatar from "boring-avatars";
 import { useNavigate } from "react-router-dom";
 import {  Scan } from "lucide-react";
@@ -12,50 +12,63 @@ export default function SecondPage() {
   const navigator = useNavigate();
   const [pastEvent, setpastEvent] = useState(false);
   const [noEvent, setnoEvent] = useState(true);
+  const array = []
+  array[0] = {"EventName":"one","folder_name":"one_file"}
+  array[1] = {"EventName":"two","folder_name":"two_file"}
+  localStorage.setItem('Event',JSON.stringify(array))
+  // localStorage.removeItem('Event')
 
   const createEvent = () => {
     navigator("/scan");
   };
+  const ename = localStorage.getItem('Event')!
+  const name:[] = JSON.parse(ename)
 
-  const checkPastEvent = () => {
-    setpastEvent((past) => !past);
-    setnoEvent((no) => !no);
-  };
-const goToEvents =(id:number) =>{
+useEffect(() =>{
+  const events = () =>{
+    if(ename){
+      console.log('data found')
+      setpastEvent(true);
+      setnoEvent(false);
+    }else{
+      console.log('no data found')
+      setpastEvent(false);
+      setnoEvent(true);
+    }
+  }
+  events()
+
+},[ename])
+
+const goToEvents =(id:any) =>{
   console.log(id)
-  navigator(`/${id}`)
+  navigator(`/events/${id}`)
 }
-  const name = [
-    { id: "1", name: "bhuwan" },
-    { id: "2", name: "paudel" },
-    { id: "2", name: "main" },
-  ];
+ 
+
+
 
   return (
     <div className="div">
       <div className="name text-start">
         <p className="text-xl text-blue-500"> Past Event</p>
       </div>
-      <div className="events">
-        <button onClick={checkPastEvent}>click</button>
-      </div>
       <div className="event-list flex flex-col gap-10 pt-10 text-xl text-left">
         {pastEvent &&
           name &&
-          name.map((name1, id) => (
+          name.map((name1:any) => (
             <button
-              key={id}
-               onClick={(e) =>goToEvents(id)}
+               onClick={(e) =>goToEvents(name1.folder_name)}
               className="hover:bg-gray-200 duration-500 rounded-md pl-1 flex gap-5"
             >
               {/* <img src={img1} alt="img" className='w-20 rounded-full' /> */}
               <Avatar
                 size={40}
-                name={name1.name}
+                name={name1.EventName}
                 variant="beam"
                 colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
               />
-              <p className=" pt-1">Event {name1.name}</p>
+              <p className=" pt-1">Event {name1.EventName}</p>
             </button>
           ))}
       </div>
