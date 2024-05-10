@@ -1,7 +1,12 @@
+import { useState } from "react";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 
 const Firstpage = () => {
+  const [name, setName] = useState<string>();
+  const handleSubmit = () => {
+    name && localStorage.setItem("username", name);
+  };
   return (
     <div className="flex items-center justify-center h-screen">
       <section className="w-full max-w-md py-12 md:py-24 lg:py-32">
@@ -20,8 +25,9 @@ const Firstpage = () => {
                 className="w-full"
                 placeholder="Enter your name"
                 type="text"
+                onChange={(e) => setName(e.target.value)}
               />
-              <Button className="w-full" type="submit">
+              <Button className="w-full" type="submit" onClick={handleSubmit}>
                 Submit
               </Button>
             </form>
