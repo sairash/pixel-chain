@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Avatar from "boring-avatars";
 import { useNavigate } from "react-router-dom";
-import { QrCode, Scan } from "lucide-react";
+import {  Scan } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function SecondPage() {
@@ -21,7 +21,10 @@ export default function SecondPage() {
     setpastEvent((past) => !past);
     setnoEvent((no) => !no);
   };
-
+const goToEvents =(id:number) =>{
+  console.log(id)
+  navigator(`/${id}`)
+}
   const name = [
     { id: "1", name: "bhuwan" },
     { id: "2", name: "paudel" },
@@ -39,10 +42,10 @@ export default function SecondPage() {
       <div className="event-list flex flex-col gap-10 pt-10 text-xl text-left">
         {pastEvent &&
           name &&
-          name.map((name1, index) => (
-            <a
-              key={index}
-              href={`#`}
+          name.map((name1, id) => (
+            <button
+              key={id}
+               onClick={(e) =>goToEvents(id)}
               className="hover:bg-gray-200 duration-500 rounded-md pl-1 flex gap-5"
             >
               {/* <img src={img1} alt="img" className='w-20 rounded-full' /> */}
@@ -53,7 +56,7 @@ export default function SecondPage() {
                 colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
               />
               <p className=" pt-1">Event {name1.name}</p>
-            </a>
+            </button>
           ))}
       </div>
       {noEvent && (
