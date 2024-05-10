@@ -8,6 +8,7 @@ import "./index.css";
 import SecondPage from "./pages/SecondPage.tsx";
 import ScanQrPage from "./pages/ScanQrPage.tsx";
 import IndEvents from "./pages/IndEvents.tsx";
+import GenerateQr from "./pages/GenerateQr.tsx";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
   { path: "/events", element: <SecondPage /> },
   { path: "/events/:id", element: <IndEvents /> },
   { path: "scan", element: <ScanQrPage /> },
+  { path: "/generateQr", element: <GenerateQr /> },
 ]);
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
