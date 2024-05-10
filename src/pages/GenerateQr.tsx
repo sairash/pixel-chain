@@ -56,8 +56,8 @@ const GenerateQr = () => {
       signer = await (provider as ethers.BrowserProvider).getSigner();
       const contract = new ethers.Contract(MY_VIEW_P_ID, ABI_STORAGE, signer);
       console.log(await contract.retrieve("8Jl8iZ_IA6_lyl2T"));
-      console.log(
-        //   await contract.store(
+      // console.log(
+          await contract.store(
         sign_key,
         owner,
         unique_id_pic,
@@ -65,8 +65,8 @@ const GenerateQr = () => {
         start_date,
         end_date,
         sep
-        //   )
-      );
+          )
+      // );
       // console.log(
       //   await contract.store(
       //     sign_key,
