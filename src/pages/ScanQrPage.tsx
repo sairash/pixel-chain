@@ -55,6 +55,30 @@ const ScanQrPage = () => {
                     ABI_STORAGE,
                     signer
                   );
+                  try {
+                    const data = await contract.retrieve(result);
+
+                    if (data[5].length === 0) throw Error("null");
+
+                    if (events) {
+                      events.push({ id: result, name: data[5] });
+
+                      // filter if id exists
+                      if (!events.find((event) => event.id === result)) {
+                        localStorage.setItem("events", JSON.stringify(events));
+                      }
+                    } else {
+                      localStorage.setItem(
+                        "events",
+                        JSON.stringify([{ id: result, name: data[5] }])
+                      );
+
+                      navigator(`/events/${result}`);
+                    }
+                  } catch (error) {
+                    console.log(error);
+                    setError(true);
+                  }
                 } else {
                   provider = new ethers.BrowserProvider(eth);
 
