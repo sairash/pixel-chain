@@ -148,6 +148,24 @@ func main() {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
 
+	e.GET("/redirected", func(c echo.Context) error {
+		targetPort := "8080"
+		targetURL := "http://localhost:" + targetPort + "/ipfs/QmRveCQeLLHKWG2mc1aN7YZNppxqg3JNBYJGo8TyeCGbbz"
+		resp, err := http.Get(targetURL)
+		if err != nil {
+			return err
+		}
+		defer resp.Body.Close()
+
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			return err
+		}
+
+		c.Response().Header().Set("Content-Type", resp.Header.Get("Content-Type"))
+		return c.Blob(resp.StatusCode, resp.Header.Get("Content-Type"), body)
+	})
+
 	e.GET("/gen_sign", func(c echo.Context) error {
 		folder, sep, sign_key, err := create_ipfs_folder(c)
 		if err != nil {
@@ -160,9 +178,9 @@ func main() {
 		})
 	})
 	e.POST("/", func(c echo.Context) error {
-		folder_name := c.FormValue("folder_name")
-		sep := c.FormValue("sep")
-		sign_key := c.FormValue("sign_key")
+		// folder_name := c.FormValue("folder_name")
+		// sep := c.FormValue("sep")
+		// sign_key := c.FormValue("sign_key")
 		image, err := c.FormFile("image")
 		if err != nil {
 			fmt.Println(err.Error())
