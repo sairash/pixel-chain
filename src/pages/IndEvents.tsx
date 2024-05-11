@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { ABI_STORAGE, MY_VIEW_P_ID } from "@/const/imp";
-import { Scanner } from "@yudiel/react-qr-scanner";
 import { ethers } from "ethers";
-import { Card, CardContent } from "@/components/ui/card"
 import { useNavigate } from 'react-router-dom';
 
 import {
@@ -14,6 +12,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import { ChevronLeft } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 
 export default   function IndEvents() {
@@ -23,28 +22,35 @@ export default   function IndEvents() {
   const [date2,setDate2] = useState('')
   const [myphotos,setPhotos] = useState(true)
   const [allphotos,setAllPhotos] = useState(false)
-  const [choosePhotos,setChoosePhotos] = useState(false)
-  const [year,setYear] = useState(0)
-  const [month,setMonth] = useState('')
-  const [day,setDay] = useState(0)
+  const [choosePhotos,setChoosePhotos] = useState(false)  
   const navigate = useNavigate();
+  const [selectedButton, setSelectedButton] = useState(null);
+
+
+
+  const handleClick = (button:any) => {
+    setSelectedButton(button);
+  };
 
   const myPhotos  = () =>{
     setPhotos(true)
     setAllPhotos(false)
     setChoosePhotos(false)
+    handleClick('button1')
 
   }
   const allPhotos = () =>{
     setPhotos(false)
     setAllPhotos(true)
     setChoosePhotos(false)
+    handleClick('button2')
     
   }
   const choosePov = () =>{
     setPhotos(false)
     setAllPhotos(false)
     setChoosePhotos(true)
+    handleClick('button3')
 
 
   }
@@ -55,18 +61,14 @@ export default   function IndEvents() {
     'https://www.bhuwanp.com/images/myself.png',
     'https://www.bhuwanp.com/images/myself.png',
     'https://www.bhuwanp.com/images/myself.png',
+    'https://www.bhuwanp.com/images/myself.png',
+    'https://www.bhuwanp.com/images/myself.png',
+    'https://www.bhuwanp.com/images/myself.png',
+    'https://www.bhuwanp.com/images/myself.png',
+    'https://www.bhuwanp.com/images/myself.png',
 
   ]
-  const imgs1 = [
-    'https://www.bhuwanp.com/images/do.png',
-    'https://www.bhuwanp.com/images/do.png',
-    'https://www.bhuwanp.com/images/do.png',
-    'https://www.bhuwanp.com/images/do.png',
-    'https://www.bhuwanp.com/images/do.png',
-    'https://www.bhuwanp.com/images/do.png',
-
-  ]
-
+ 
   const EtherFunction =async() =>{
     let signer = null;
     let eth = window.ethereum;
@@ -101,8 +103,6 @@ export default   function IndEvents() {
       );
       try {
         const data = await contract.retrieve(id);
-        console.log(data)
-
         const timestamp1 = (data[3])
         const timestamp2 = (data[4])
 
@@ -119,12 +119,10 @@ export default   function IndEvents() {
         const days2 = date2.getDate();
         const formattedDate2 = `${year2} ${month2}, ${days2}`;
         setDate2(formattedDate2)
-
         setName(data[5])
 
-        
-
         if (data[5].length === 0) throw Error("null");
+        return data // to use other function
         
       } catch (error) {
         console.log(error);
@@ -135,121 +133,79 @@ export default   function IndEvents() {
   useEffect(() =>{
      EtherFunction()
   },[])
-
-  const imgClick = () =>{
-
-
-
+  const individualPov = () =>{
+navigate('events/id/name')
+    console.log('go to page')
   }
 
 
   return (
     <div className="pb-20">
       <div className="div text-left px-2  ">
-      <button onClick={() => navigate('/events')} className="text-3xl bg-gray-200  px-1 py-1 rounded-full">
+      <button onClick={() => navigate('/events')} className="text-3xl
+       bg-blue-100 hover:bg-blue-200  px-1 py-1 rounded-full transition-all pr-2 
+        duration-500">
       <ChevronLeft />
       </button>
       </div>
-      <div className="event-name text-left font-serif  pt-3">
-        <p className="text-4xl text-blue-500 italic">{name}</p> 
+      <div className="event-name text-left font-serif  pt-3 pb-3">
+        <p className="text-4xl text-blue-500 italic">Event  Name {name}</p> 
         <p className="pl-2 pt-3 text-green-500">From {date1 && date1}</p>
          <p className="pl-2  pt-1 text-green-500">To {date2 && date2}</p>
        </div>
        {/* my photos  */}
-       <div className="imgs flex flex-wrap  gap-5 lg:gap-20">
+       <div className="imgs flex flex-wrap  gap-1">
        {myphotos &&
-
        imgs && imgs.map((img) =>(
-        <button onClick={imgClick}><img src={img} alt="" className="w-32 lg:w-80" /></button>
+        <button>
+
+          <img src={img} alt="" className="w-32 lg:w-80 border border-gray-300 rounded-lg" />
+        </button>
       )) 
     }
     
     </div>
-    {/* <Carousel showarrows>
-      <div className="div">
-      {
-        imgs && imgs.map((img) =>(
-          <button onClick={imgClick}><img src={img} alt="" className="w-32 lg:w-96" /></button>
-        ))
+       {allphotos &&
+       <div className="  flex  flex-wrap gap-1">
+              {imgs.map((img) => (
+             <div onClick={individualPov} className="div border-gray-200 border relative ">
+              <p className="absolute bottom-2 left-2 ">Bhuwan</p>
+               <img src={img} className="w-32 lg:w-80  rounded-lg" />
+            </div>
+           ))}
+       </div>
       }
-      </div>
 
-</Carousel> */}
-        {/* <div className="  border border-black w-80 ml-10 mt-10">
-          <Carousel>
-           <CarouselContent className="" >
-             {imgs.map((img, index) => (
-               <CarouselItem key={index}>
-                 <img src={img} alt={`Image ${index}`} className="w-96" />
-               </CarouselItem>
-             ))}
-           </CarouselContent>
-           <CarouselPrevious />
-           <CarouselNext />
-         </Carousel>
-        </div> */}
-       
-      <div className="allPhotos  flex flex-wrap gap-16 ">
-       {allphotos &&
-       <div className="  border border-black w-80 ml-10 mt-10">
-         <Carousel>
-          <CarouselContent className="" >
-            {imgs.map((img, index) => (
-              <CarouselItem key={index}>
-                <img src={img} alt={`Image ${index}`} className="w-96" />
-                <p>name</p>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
-       </div>
-      }
-       {allphotos &&
-       <div className="  border border-black w-80 ml-10 mt-10">
-         <Carousel>
-          <CarouselContent className="" >
-            {imgs.map((img, index) => (
-              <CarouselItem key={index}>
-                <img src={img} alt={`Image ${index}`} className="w-96" />
-                <p>name</p>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
-       </div>
-      }
-      </div>
       
       {choosePhotos && 
-        <div className="  border border-black w-80 ml-10 mt-10">
-        <Carousel>
-         <CarouselContent className="" >
-           {imgs.map((img, index) => (
-             <CarouselItem key={index}>
-               <img src={img} alt={`Image ${index}`} className="w-96" />
-             </CarouselItem>
+        <div className="flex flex-wrap gap-1">
+           {imgs.map((img) => (
+             <div onClick={individualPov} className="div border-gray-200 border relative ">
+              <p className="absolute bottom-2 left-2 ">Bhuwan</p>
+               <img src={img} className="w-32 lg:w-80 rounded-lg cursor-pointer" />
+            </div>
            ))}
-         </CarouselContent>
-         <CarouselPrevious />
-         <CarouselNext />
-       </Carousel>
       </div>
      }
-      
-      
-     
+     {/* tab */}
+     <div className="buttons flex  justify-between fixed w-[400px] lg:w-[1200px] bottom-2 lg:bottom-2 px-5 py-2 mr-20 rounded-2xl">
 
-
-<div className="buttons  bg-gray-200 flex  justify-between fixed w-[400px] lg:w-[1200px] bottom-2 lg:bottom-2 px-5 py-2 mr-20 rounded-2xl">
-  <button className=" bg-blue-200 rounded-xl px-2 py-1" onClick={myPhotos}>My Photos</button>
-  <button className=" rounded-md px-2 py-1" onClick={allPhotos}>All Photos</button>
-  <button className="  rounded-md px-2 py-1" onClick={choosePov}>Choose a pov</button>
-</div>
-
+    <Tabs defaultValue="my" className="w-full ">
+  <TabsList className="w-full flex justify-between  bg-blue-100 rounded-lg py-6">
+    <TabsTrigger value="my">
+    <button className=" rounded-xl px-2 py-1" onClick={myPhotos} >My Photos</button>
+        </TabsTrigger>
+    <TabsTrigger value="all">
+    <button className=" rounded-md px-2 py-1" onClick={allPhotos} >All Photos</button>
+    </TabsTrigger>
+    <TabsTrigger value="pov">
+    <button className="  rounded-md px-2 py-1" onClick={choosePov}>Choose a pov</button>
+    </TabsTrigger>
+  </TabsList>
+  <TabsContent value="account">Make changes to your account here.</TabsContent>
+  <TabsContent value="password">Change your password here.</TabsContent>
+</Tabs>
+     </div>
     </div>
   )
 }

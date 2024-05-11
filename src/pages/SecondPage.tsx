@@ -3,7 +3,6 @@ import Avatar from "boring-avatars";
 import { useNavigate } from "react-router-dom";
 import {  Scan } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
 export default function SecondPage() {
 
   const navigator = useNavigate();
@@ -36,28 +35,26 @@ const goToEvents =(id:any) =>{
   navigator(`/events/${id}`)
 }
  
-
-
-
   return (
     <div className="div">
       <div className="name text-start">
-        <p className="text-xl text-blue-500"> Past Event</p>
+        <p className="text-2xl text-[#eead0e] transition-all font-serif">
+          Your past Events
+           </p>
       </div>
-      <div className="event-list flex flex-col gap-10 pt-10 text-xl text-left">
+      <div className="event-list flex flex-col gap-10 pt-10 text-xl text-left font-serif">
         {pastEvent &&
           name &&
           name.map((name1:any) => (
             <button key={name1.id}
                onClick={(e) =>goToEvents(name1.id)}
-              className="hover:bg-gray-200 duration-500 rounded-md pl-1 flex gap-5"
+              className=" text-white bg-[#694978] hover:bg-[#6e4282] py-5 duration-500 rounded-md pl-1 flex gap-5"
             >
-              {/* <img src={img1} alt="img" className='w-20 rounded-full' /> */}
               <Avatar 
                 size={40}
                 name={name1.name}
                 variant="beam"
-                colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
+                colors={["#572d6a", "#990799", "#785687", "#f2cc84", "#ffdede"]}
               />
               <p  className=" pt-1">Event {name1.name}</p>
             </button>
@@ -73,7 +70,7 @@ const goToEvents =(id:any) =>{
           <Button 
           onClick={createEvent}
           variant={"link"} >
-          <Scan className="h-16 w-10" />
+          <Scan className="h-16 w-14 text-[#694978]" />
           </Button>
         </div>
       </div>
