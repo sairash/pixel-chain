@@ -9,6 +9,7 @@ import SecondPage from "./pages/SecondPage.tsx";
 import ScanQrPage from "./pages/ScanQrPage.tsx";
 import IndEvents from "./pages/IndEvents.tsx";
 import GenerateQr from "./pages/GenerateQr.tsx";
+import Camera from "./pages/Camera.tsx";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,7 @@ const router = createBrowserRouter([
   // { path: "/events/:id/name", element:<MyPovPage/> },
   { path: "scan", element: <ScanQrPage /> },
   { path: "/generateQr", element: <GenerateQr /> },
+  { path: "/camera/:id", element: <Camera /> },
 ]);
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

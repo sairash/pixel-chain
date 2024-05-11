@@ -11,7 +11,18 @@ declare global {
 }
 
 const ScanQrPage = () => {
-  const [events, setEvents] = useState<{ id: string; name: string }[] | null>();
+  const [events, setEvents] = useState<
+    | {
+        id: string;
+        name: string;
+        expiry: string;
+        start: string;
+        owner: string;
+        sep: string;
+        signKey: string;
+      }[]
+    | null
+  >();
   const [error, setError] = useState(false);
 
   const navigator = useNavigate();
@@ -55,6 +66,57 @@ const ScanQrPage = () => {
                     ABI_STORAGE,
                     signer
                   );
+                  try {
+                    const data = await contract.retrieve(result);
+
+                    if (data[5].length === 0) throw Error("null");
+
+                    if (events) {
+                      events.push({
+                        id: result,
+                        name: data[5],
+                        expiry: data[4],
+                        start: data[3],
+                        owner: data[0],
+                        sep: data[1],
+                        signKey: data[2],
+                      });
+
+                      // filter if id exists
+                      if (!events.find((event) => event.id === result)) {
+                        localStorage.setItem("events", JSON.stringify(events));
+                        if (data[4] > Date.now()) {
+                          navigator(`/camera/${result}`);
+                        } else {
+                          navigator(`/events/${result}`);
+                        }
+                      }
+                    } else {
+                      localStorage.setItem(
+                        "events",
+                        JSON.stringify([
+                          {
+                            id: result,
+                            name: data[5],
+                            expiry: data[4],
+                            start: data[3],
+                            owner: data[0],
+                            sep: data[1],
+                            signKey: data[2],
+                          },
+                        ])
+                      );
+
+                      if (data[4] > Date.now()) {
+                        navigator(`/camera/${result}`);
+                      } else {
+                        navigator(`/events/${result}`);
+                      }
+                    }
+                  } catch (error) {
+                    console.log(error);
+                    setError(true);
+                  }
                 } else {
                   provider = new ethers.BrowserProvider(eth);
 
@@ -72,19 +134,48 @@ const ScanQrPage = () => {
                     if (data[5].length === 0) throw Error("null");
 
                     if (events) {
-                      events.push({ id: result, name: data[5] });
+                      events.push({
+                        id: result,
+                        name: data[5],
+                        expiry: data[4],
+                        start: data[3],
+                        owner: data[0],
+                        sep: data[1],
+                        signKey: data[2],
+                      });
 
                       // filter if id exists
                       if (!events.find((event) => event.id === result)) {
                         localStorage.setItem("events", JSON.stringify(events));
+                        if (data[4] > Date.now()) {
+                          navigator(`/camera/${result}`);
+                        } else {
+                          navigator(`/events/${result}`);
+                        }
                       }
                     } else {
+                      console.log("from meta mask", data[4] > Date.now());
+
                       localStorage.setItem(
                         "events",
-                        JSON.stringify([{ id: result, name: data[5] }])
+                        JSON.stringify([
+                          {
+                            id: result,
+                            name: data[5],
+                            expiry: data[4],
+                            start: data[3],
+                            owner: data[0],
+                            sep: data[1],
+                            signKey: data[2],
+                          },
+                        ])
                       );
 
-                      navigator(`/events/${result}`);
+                      if (data[4] > Date.now()) {
+                        navigator(`/camera/${result}`);
+                      } else {
+                        navigator(`/events/${result}`);
+                      }
                     }
                   } catch (error) {
                     console.log(error);
