@@ -1,13 +1,13 @@
 import { useState } from "react";
 import Avatar from "boring-avatars";
 import { useNavigate } from "react-router-dom";
-import {  Scan } from "lucide-react";
+import { Scan } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function SecondPage() {
-  const events = []; // past events
-  const img1 = "https://www.bhuwanp.com/images/myself.png";
-  const api = "https://bhuwanp";
+  // const events = []; // past events
+  // const img1 = "https://www.bhuwanp.com/images/myself.png";
+  // const api = "https://bhuwanp";
 
   const navigator = useNavigate();
   const [pastEvent, setpastEvent] = useState(false);
@@ -21,10 +21,10 @@ export default function SecondPage() {
     setpastEvent((past) => !past);
     setnoEvent((no) => !no);
   };
-const goToEvents =(id:number) =>{
-  console.log(id)
-  navigator(`/${id}`)
-}
+  const goToEvents = (id: number) => {
+    console.log(id);
+    navigator(`/${id}`);
+  };
   const name = [
     { id: "1", name: "bhuwan" },
     { id: "2", name: "paudel" },
@@ -45,7 +45,7 @@ const goToEvents =(id:number) =>{
           name.map((name1, id) => (
             <button
               key={id}
-               onClick={(e) =>goToEvents(id)}
+              onClick={() => goToEvents(id)}
               className="hover:bg-gray-200 duration-500 rounded-md pl-1 flex gap-5"
             >
               {/* <img src={img1} alt="img" className='w-20 rounded-full' /> */}
@@ -66,10 +66,8 @@ const goToEvents =(id:number) =>{
       )}
       <div className=" text-center flex flex-col items-center pb-20">
         <div className="button pt-10 pb-10 fixed lg:-bottom-8 -bottom-5">
-          <Button 
-          onClick={createEvent}
-          variant={"link"} >
-          <Scan className="h-16 w-10" />
+          <Button onClick={createEvent} variant={"link"}>
+            <Scan className="h-16 w-10" />
           </Button>
         </div>
       </div>
