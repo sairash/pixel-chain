@@ -1,4 +1,5 @@
 import { ABI_STORAGE, MY_VIEW_P_ID } from "@/const/imp";
+import { removeDuplicates } from "@/lib/utils";
 import { Scanner } from "@yudiel/react-qr-scanner";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
@@ -23,6 +24,7 @@ const ScanQrPage = () => {
       }[]
     | null
   >();
+
   const [error, setError] = useState(false);
 
   const navigator = useNavigate();
@@ -44,6 +46,7 @@ const ScanQrPage = () => {
         <div className="bg-white dark:bg-gray-900 rounded-xl shadow-lg overflow-hidden aspect-square">
           <div className="flex items-center justify-center h-full">
             <Scanner
+            components={{audio:false}}
               onResult={async (result) => {
                 let signer = null;
                 let eth = window.ethereum;
@@ -146,16 +149,27 @@ const ScanQrPage = () => {
 
                       // filter if id exists
                       if (!events.find((event) => event.id === result)) {
+                        console.log("after", events);
                         localStorage.setItem("events", JSON.stringify(events));
                         if (data[4] > Date.now()) {
                           navigator(`/camera/${result}`);
                         } else {
                           navigator(`/events/${result}`);
                         }
+                      } else {
+                        localStorage.setItem(
+                          "events",
+                          JSON.stringify(removeDuplicates(events, "id"))
+                        );
+                        if (data[4] > Date.now()) {
+                          navigator(`/camera/${result}`);
+                        } else {
+                          navigator(`/events/${result}`);
+                        }
+
                       }
                     } else {
                       console.log("from meta mask", data[4] > Date.now());
-
                       localStorage.setItem(
                         "events",
                         JSON.stringify([
