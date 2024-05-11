@@ -164,7 +164,15 @@ const MlCamera: React.FC = () => {
           marginBottom: "10px",
         }}
       >
-        <button onClick={takePicture}>Take Picture</button>
+          <div className=" text-center flex flex-col items-center ">
+        <div className="button  px-2 py-2 fixed  bottom-20  transition-all duration-500  rounded-xl bg-opacity-35">
+          
+            <button
+              onClick={takePicture}
+              className={` capture z-30 rounded-full w-20 h-20   bg-slate-900 hover:bg-white transition-all duration-500 ring-4`}
+            ></button>
+              </div>
+      </div>
       </div>
       <div
         style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}

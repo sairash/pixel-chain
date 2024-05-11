@@ -74,7 +74,7 @@ export default function SecondPage() {
             >
               <div
                 onClick={(e) => goToEvents(name1.id)}
-                className="inline-flex "
+                className="inline-flex cursor-pointer "
               >
                 <Avatar
                   size={40}
@@ -94,7 +94,7 @@ export default function SecondPage() {
                 onClick={() => {
                   navigator(`/camera/${name1.id}`);
                 }}
-                className="w-10 h-10 mx-2"
+                className="w-10 h-10 mx-2 cursor-pointer"
               />
             </div>
           ))}
