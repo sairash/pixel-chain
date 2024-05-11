@@ -4,7 +4,7 @@ import { useRef, useEffect } from "react";
 
 import { useState } from "react";
 import { dataURLtoFile, genRanHex, send_file } from "@/lib/utils";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import Hammer from "hammerjs";
 
@@ -17,6 +17,7 @@ declare global {
 const Camera = () => {
   const { id } = useParams();
 
+  const navigation = useNavigate()
   const hammerRef = useRef(null);
 
   useEffect(() => {
@@ -252,7 +253,9 @@ const Camera = () => {
 
       <div className=" bg-gradient-to-t from-purple-200  footer absolute  w-screen bottom-0">
         <div className="flex justify-between p-4 items-center">
-          <div className="gallery">
+          <div className="gallery" onClick={()=>{
+            navigation(`/events/${id}`)
+          }}>
             <Images />
           </div>
           <div>

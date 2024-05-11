@@ -1,8 +1,10 @@
 import { ABI_STORAGE, MY_VIEW_P_ID } from "@/const/imp";
+import { removeDuplicates } from "@/lib/utils";
 import { Scanner } from "@yudiel/react-qr-scanner";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import BeatLoader from 'react-spinners/BeatLoader'
 
 declare global {
   interface Window {
@@ -23,6 +25,7 @@ const ScanQrPage = () => {
       }[]
     | null
   >();
+
   const [error, setError] = useState(false);
 
   const navigator = useNavigate();
@@ -32,9 +35,31 @@ const ScanQrPage = () => {
       setEvents(JSON.parse(localStorage.getItem("events")));
     }
   }, []);
+  const [loading,setLoading] = useState(true)
+  useEffect(() =>{
+    setTimeout(() => {
+      setLoading(false)
+      
+    }, 2000);
+  })
+  let [color, setColor] = useState("#36d7b7");
 
   return (
-    <main className="flex flex-col items-center justify-center h-screen ">
+    <main className="flex flex-col items-center relative justify-center h-screen ">
+      {loading &&
+      <div className="modal absolute bg-gray-900 lg:w-[600px] w-[450px] h-[550px] rounded-xl z-20 text-white
+      text-center">
+        <p className="text-center text-4xl flex justify-center items-center pt-52">
+          Loading your Scanner
+          </p>
+        <BeatLoader className="pt-20"
+        color={color}
+        size={50}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+        </div>    
+    }
       <div className="max-w-md w-full space-y-4 px-4">
         <h1 className="text-3xl font-bold text-center">QR Code Scanner</h1>
         <p className="text-gray-500 dark:text-gray-400 text-center">
@@ -44,6 +69,7 @@ const ScanQrPage = () => {
         <div className="bg-white dark:bg-gray-900 rounded-xl shadow-lg overflow-hidden aspect-square">
           <div className="flex items-center justify-center h-full">
             <Scanner
+            components={{audio:false}}
               onResult={async (result) => {
                 let signer = null;
                 let eth = window.ethereum;
@@ -146,16 +172,27 @@ const ScanQrPage = () => {
 
                       // filter if id exists
                       if (!events.find((event) => event.id === result)) {
+                        console.log("after", events);
                         localStorage.setItem("events", JSON.stringify(events));
                         if (data[4] > Date.now()) {
                           navigator(`/camera/${result}`);
                         } else {
                           navigator(`/events/${result}`);
                         }
+                      } else {
+                        localStorage.setItem(
+                          "events",
+                          JSON.stringify(removeDuplicates(events, "id"))
+                        );
+                        if (data[4] > Date.now()) {
+                          navigator(`/camera/${result}`);
+                        } else {
+                          navigator(`/events/${result}`);
+                        }
+
                       }
                     } else {
                       console.log("from meta mask", data[4] > Date.now());
-
                       localStorage.setItem(
                         "events",
                         JSON.stringify([

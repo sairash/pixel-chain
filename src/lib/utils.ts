@@ -84,3 +84,43 @@ export async function reqPovData(
     console.error("Error ", error);
   }
 }
+
+export function removeDuplicates(arr, prop) {
+  return arr.filter((obj, index, self) => 
+      index === self.findIndex((t) => (
+          t[prop] === obj[prop]
+      ))
+  );
+}
+
+
+
+export async function reqAll(
+  folderName: string,
+  sep: string,
+  signKey: string,
+) {
+  console.log( folderName, sep, signKey);
+  const formData = new FormData();
+  formData.append("folder_name", folderName);
+  formData.append("sep", sep);
+  formData.append("sign_key", signKey);
+
+
+  try {
+    const response = await fetch("http://192.168.100.119:1323/get/all", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (response.ok) {
+      const responseData = await response.json();
+      // console.log("Image uploaded successfully:", responseData);
+      return responseData;
+    } else {
+      console.error("Failed ", response.statusText);
+    }
+  } catch (error) {
+    console.error("Error ", error);
+  }
+}
