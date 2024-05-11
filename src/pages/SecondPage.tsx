@@ -5,33 +5,24 @@ import {  Scan } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function SecondPage() {
-  const events = []; // past events
-  const img1 = "https://www.bhuwanp.com/images/myself.png";
-  const api = "https://bhuwanp";
 
   const navigator = useNavigate();
   const [pastEvent, setpastEvent] = useState(false);
   const [noEvent, setnoEvent] = useState(true);
-  const array = []
-  array[0] = {"EventName":"one","folder_name":"one_file"}
-  array[1] = {"EventName":"two","folder_name":"two_file"}
-  localStorage.setItem('Event',JSON.stringify(array))
-  // localStorage.removeItem('Event')
+
 
   const createEvent = () => {
     navigator("/scan");
   };
-  const ename = localStorage.getItem('Event')!
+  const ename = localStorage.getItem('events')!
   const name:[] = JSON.parse(ename)
 
 useEffect(() =>{
   const events = () =>{
     if(ename){
-      console.log('data found')
       setpastEvent(true);
       setnoEvent(false);
     }else{
-      console.log('no data found')
       setpastEvent(false);
       setnoEvent(true);
     }
@@ -57,18 +48,18 @@ const goToEvents =(id:any) =>{
         {pastEvent &&
           name &&
           name.map((name1:any) => (
-            <button
-               onClick={(e) =>goToEvents(name1.folder_name)}
+            <button key={name1.id}
+               onClick={(e) =>goToEvents(name1.id)}
               className="hover:bg-gray-200 duration-500 rounded-md pl-1 flex gap-5"
             >
               {/* <img src={img1} alt="img" className='w-20 rounded-full' /> */}
-              <Avatar
+              <Avatar 
                 size={40}
-                name={name1.EventName}
+                name={name1.name}
                 variant="beam"
                 colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
               />
-              <p className=" pt-1">Event {name1.EventName}</p>
+              <p  className=" pt-1">Event {name1.name}</p>
             </button>
           ))}
       </div>
