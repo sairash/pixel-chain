@@ -1,6 +1,6 @@
 import { reqPovData } from "@/lib/utils";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Avatar from "boring-avatars";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
@@ -9,6 +9,7 @@ const PovMain = ({ id, name }) => {
   const [povData, setPovData] = useState(null);
   const [event, setEvent] = useState(null);
 
+  const navigator = useNavigate();
   useEffect(() => {
     const storedEvents = JSON.parse(localStorage.getItem("events")) || [];
     const found = storedEvents.find((eve) => eve.id === id);
@@ -39,6 +40,9 @@ const PovMain = ({ id, name }) => {
               variant={"link"}
               size={"icon"}
               className="absolute top--2 h-10 w-20"
+              onClick={()=>{
+                navigator('/')
+              }}
             >
               <ChevronLeft />
             </Button>

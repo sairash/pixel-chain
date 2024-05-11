@@ -111,11 +111,11 @@ const ScanQrPage = () => {
                       // filter if id exists
                       if (!events.find((event) => event.id === result)) {
                         localStorage.setItem("events", JSON.stringify(events));
-                        if (data[4] > Date.now()) {
+                        // if (data[4] > Date.now()) {
                           navigator(`/camera/${result}`);
-                        } else {
-                          navigator(`/events/${result}`);
-                        }
+                        // } else {
+                          // navigator(`/events/${result}`);
+                        // }
                       }
                     } else {
                       localStorage.setItem(
@@ -133,11 +133,11 @@ const ScanQrPage = () => {
                         ])
                       );
 
-                      if (data[4] > Date.now()) {
+                      // if (data[4] > Date.now()) {
                         navigator(`/camera/${result}`);
-                      } else {
-                        navigator(`/events/${result}`);
-                      }
+                      // } else {
+                        // navigator(`/events/${result}`);
+                      // }
                     }
                   } catch (error) {
                     console.log(error);
@@ -174,21 +174,21 @@ const ScanQrPage = () => {
                       if (!events.find((event) => event.id === result)) {
                         console.log("after", events);
                         localStorage.setItem("events", JSON.stringify(events));
-                        if (data[4] > Date.now()) {
+                        // if (data[4] > Date.now()) {
                           navigator(`/camera/${result}`);
-                        } else {
-                          navigator(`/events/${result}`);
-                        }
+                        // } else {
+                          // navigator(`/events/${result}`);
+                        // }
                       } else {
                         localStorage.setItem(
                           "events",
                           JSON.stringify(removeDuplicates(events, "id"))
                         );
-                        if (data[4] > Date.now()) {
+                        // if (data[4] > Date.now()) {
                           navigator(`/camera/${result}`);
-                        } else {
-                          navigator(`/events/${result}`);
-                        }
+                        // } else {
+                          // navigator(`/events/${result}`);
+                        // }
 
                       }
                     } else {
@@ -208,11 +208,11 @@ const ScanQrPage = () => {
                         ])
                       );
 
-                      if (data[4] > Date.now()) {
+                      // if (data[4] > Date.now()) {
                         navigator(`/camera/${result}`);
-                      } else {
-                        navigator(`/events/${result}`);
-                      }
+                      // } else {
+                        // navigator(`/events/${result}`);
+                      // }
                     }
                   } catch (error) {
                     console.log(error);
