@@ -182,6 +182,7 @@ const Camera = () => {
 
   const takePicture = async () => {
     if (videoRef.current) {
+      
       const canvas = document.createElement("canvas");
       canvas.width = videoRef.current.videoWidth;
       canvas.height = videoRef.current.videoHeight;
@@ -256,7 +257,7 @@ const Camera = () => {
           <div className="gallery" onClick={()=>{
             navigation(`/events/${id}`)
           }}>
-            <Images />
+            {base64Photo ? <img src={base64Photo} className="h-16 w-16 rounded-full" />:<Images  className="" /> }
           </div>
           <div>
             <button
