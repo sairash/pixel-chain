@@ -9,6 +9,8 @@ const MlCamera: React.FC = () => {
     "https://www.bhuwanp.com/images/myself.png"
   );
 
+  const [finalimages, setFinalImages] = useState([]);
+
   useEffect(() => {
     const enableStream = async () => {
       try {
@@ -35,7 +37,7 @@ const MlCamera: React.FC = () => {
     };
   }, []);
 
-  const click_button =() => {
+  const click_button = () => {
     const loadMain = async () => {
       await faceapi.nets.tinyFaceDetector.loadFromUri(
         "https://cdn.jsdelivr.net/gh/boythatcodes/facejs.models@main/tiny_face/tiny_face_detector_model-weights_manifest.json"
@@ -74,15 +76,19 @@ const MlCamera: React.FC = () => {
           .withFaceDescriptors();
 
         const available_keys = Object.keys(customerData);
+        let matchedImages = [];
+
 
         for (let index = 0; index < available_keys.length; index++) {
           for (
             let index_of_images = 0;
-            index_of_images <customerData[available_keys[index]].length;
+            index_of_images < customerData[available_keys[index]].length;
             index_of_images++
           ) {
-            const value = customerData[available_keys[index]][index_of_images]
-            document.getElementById("temp")?.setAttribute("src",`http://192.168.100.119:1323/re/${value}` )
+            const value = customerData[available_keys[index]][index_of_images];
+            document
+              .getElementById("temp")
+              ?.setAttribute("src", `http://192.168.100.119:1323/re/${value}`);
 
             const detection_ipfs = await faceapi
               .detectAllFaces(
@@ -91,20 +97,23 @@ const MlCamera: React.FC = () => {
               )
               .withFaceLandmarks(true)
               .withFaceDescriptors();
-              if(detection_ipfs != null || detection_ipfs != undefined){
-                detection_ipfs.forEach((value_of_image) => {
-                  var distance = faceapi.euclideanDistance(
-                    value_of_image.descriptor,
-                    detections2[0].descriptor
-                  );
-                  if(distance <= 0.5){
-                    console.log(`http://192.168.100.119:1323/re/${value}`)
-                  }
-                });
-              }
-           
+            if (detection_ipfs != null || detection_ipfs != undefined) {
+              detection_ipfs.forEach((value_of_image) => {
+                var distance = faceapi.euclideanDistance(
+                  value_of_image.descriptor,
+                  detections2[0].descriptor
+                );
+                if (distance <= 0.5) {
+                  console.log(`http://192.168.100.119:1323/re/${value}`);
+                  matchedImages.push(`http://192.168.100.119:1323/re/${value}`);
+
+                }
+              });
+            }
           }
         }
+        setFinalImages(matchedImages);
+
       });
     };
 
@@ -123,9 +132,10 @@ const MlCamera: React.FC = () => {
         setBase64Photo(dataURL);
       }
     }
-    click_button()
+    click_button();
   };
 
+  console.log(finalimages);
   return (
     <div>
       <div
@@ -138,7 +148,11 @@ const MlCamera: React.FC = () => {
         <video
           ref={videoRef}
           autoPlay
-          style={{ transition: "filter 0.3s ease-in-out", height: 200, width: 200 }}
+          style={{
+            transition: "filter 0.3s ease-in-out",
+            height: 200,
+            width: 200,
+          }}
           className="rounded-full"
         ></video>
       </div>
@@ -157,12 +171,40 @@ const MlCamera: React.FC = () => {
       >
         {base64Photo && (
           <div>
-            <p>Base64 Image:</p>
-            <img  crossOrigin='anonymous' src={base64Photo} alt="Captured" id="cap" style={{display: "none"}} />
-
+            {/* <p>Base64 Image:</p> */}
+            <img
+              crossOrigin="anonymous"
+              src={base64Photo}
+              alt="Captured"
+              id="cap"
+              style={{ display: "none" }}
+            />
           </div>
         )}
-            <img  crossOrigin='anonymous' id="temp" style={{display: "none"}}  />
+        <img crossOrigin="anonymous" id="temp" style={{ display: "none" }} />
+
+        
+          {/* <img src={image} /> */}
+        
+
+
+<div className="grid justify-items-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+{finalimages.map((image) => (
+                <img
+                  key={image}
+                  alt="User Photo"
+                  className="rounded-lg object-cover"
+                  height={400}
+                  src={image}
+                  style={{
+                    aspectRatio: "400/400",
+                    objectFit: "cover",
+                  }}
+                  width={300}
+                />
+              ))}
+            </div>
+
       </div>
     </div>
   );

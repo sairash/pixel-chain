@@ -16,6 +16,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import YourComponent from "@/components/ui/MainPov";
 import PovMain from "@/components/ui/MainPov";
 import AllPhotos from "@/components/ui/AllPhotos";
+import MlCamera from "./MlCamera";
 
 export default function IndEvents() {
   let { id }: any = useParams();
@@ -144,27 +145,10 @@ export default function IndEvents() {
       {allphotos && <AllPhotos id={id} />}
 
       {choosePhotos && (
-        <div className="flex flex-wrap gap-3 justify-center">
-          {imgs.map((img) => (
-            <div
-              onClick={individualPov}
-              className="div border-purple-500 rounded-lg border relative "
-            >
-              <p className="absolute bottom-2 left-2  text-white">Bhuwan</p>
-              <img
-                src={img}
-                className="w-52 lg:w-80 rounded-lg cursor-pointer"
-              />
-              <p
-                className="bg-gradient-to-t  from-gray-400 to-gray-500 rounded-lg
-               transition-all  opacity-10  h-14 bottom-0 w-full absolute z-20"
-              ></p>
-            </div>
-          ))}
-        </div>
+<MlCamera />
       )}
       {/* tab */}
-      <div className="buttons flex  justify-between fixed  w-full bottom-[1px] right-1  rounded-2xl">
+      <div className="buttons flex  justify-between fixed  w-full bottom-[1px] right-0 px-4 rounded-2xl">
         <Tabs defaultValue="my" className="w-full ">
           <TabsList className="w-full flex justify-around  bg-[#6633cc] text-white z-10  rounded-full px-1 py-6">
             <TabsTrigger
@@ -174,8 +158,12 @@ export default function IndEvents() {
             >
               My Photos
             </TabsTrigger>
-            <TabsTrigger value="account" onClick={allPhotos}>
+            <TabsTrigger value="all" onClick={allPhotos}>
               All Photo
+            </TabsTrigger>
+
+            <TabsTrigger value="ml" onClick={choosePov}>
+              ML Camera
             </TabsTrigger>
 
           </TabsList>
