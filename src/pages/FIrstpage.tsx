@@ -18,8 +18,8 @@ const Firstpage = () => {
               <h2 className="text-3xl  tracking-tighter sm:text-4xl md:text-5xl  bg-gradient-to-r from-purple-600 font-bold inline-block to-yellow-500 text-transparent bg-clip-text transition-all">
                 Pixel Chain
               </h2>
-              <p className=" dark:text-gray-400 font-bold text-black">
-                Enter your name to begin.
+              <p className=" dark:text-gray-400  text-black">
+                Where Memories Last Forever
               </p>
             </div>
             <form className="space-y-4">

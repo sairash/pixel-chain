@@ -122,10 +122,13 @@ export default function IndEvents() {
 
   return (
     <div className="pb-20 px-3 py-3">
-      <div className="div text-left px-2  "></div>
+
+ 
+
       {/* <div className="event-name text-left font-serif  pt-3 pb-3">
+
         <p className="text-4xl bg-gradient-to-r bg-[#6633cc]  font-bold
-         inline-block text-transparent bg-clip-text italic">Event  Name {name}</p> 
+         inline-block text-transparent bg-clip-text ">Event  Name {name}</p> 
          <div className="date flex gap-3 items-center  pt-2 pb-1 ">
         <p className="  bg-gradient-to-r text-[#f5c144]     text-lg ">From {date1 && date1}</p>
          <p className=" text-[#f5c144] text-lg 

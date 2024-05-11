@@ -4,6 +4,7 @@ import { Scanner } from "@yudiel/react-qr-scanner";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import BeatLoader from 'react-spinners/BeatLoader'
 
 declare global {
   interface Window {
@@ -34,9 +35,31 @@ const ScanQrPage = () => {
       setEvents(JSON.parse(localStorage.getItem("events")));
     }
   }, []);
+  const [loading,setLoading] = useState(true)
+  useEffect(() =>{
+    setTimeout(() => {
+      setLoading(false)
+      
+    }, 2000);
+  })
+  let [color, setColor] = useState("#36d7b7");
 
   return (
-    <main className="flex flex-col items-center justify-center h-screen ">
+    <main className="flex flex-col items-center relative justify-center h-screen ">
+      {loading &&
+      <div className="modal absolute bg-gray-900 lg:w-[600px] w-[450px] h-[550px] rounded-xl z-20 text-white
+      text-center">
+        <p className="text-center text-4xl flex justify-center items-center pt-52">
+          Loading your Scanner
+          </p>
+        <BeatLoader className="pt-20"
+        color={color}
+        size={50}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+        </div>    
+    }
       <div className="max-w-md w-full space-y-4 px-4">
         <h1 className="text-3xl font-bold text-center">QR Code Scanner</h1>
         <p className="text-gray-500 dark:text-gray-400 text-center">
