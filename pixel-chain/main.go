@@ -191,19 +191,58 @@ func get_from_ipfs(c echo.Context) (echo.Map, error) {
 		if err != nil {
 			return nil, ErrorResponse(c, 0, err.Error(), nil)
 		}
+		temp_val := []string{}
 		for _, v := range ls_i {
 			stat, err := node.FilesStat(context.Background(), "/"+folder_name+sep+sign_key+"/"+user_name+"/"+v.Name)
 			if err != nil {
 				return nil, ErrorResponse(c, 0, err.Error(), nil)
 			}
-			my_map[v.Name] = []string{
-				stat.Hash,
-			}
+			temp_val = append(temp_val, stat.Hash)
 		}
+		my_map[user_name] = temp_val
 	}
 
 	return my_map, nil
 
+}
+
+func get_from_ipfs_all(c echo.Context) (echo.Map, error) {
+	folder_name := c.FormValue("folder_name")
+	sep := c.FormValue("sep")
+	sign_key := c.FormValue("sign_key")
+
+	if folder_name == "" && sep == "" && sign_key == "" {
+		return nil, ErrorResponse(c, 0, "Getting Value Without Sign!", nil)
+	}
+
+	node := shell.NewShell("127.0.0.1:5001")
+
+	my_map := echo.Map{}
+
+	ls, err := node.FilesLs(context.Background(), "/"+folder_name+sep+sign_key)
+
+	if err != nil {
+		return nil, ErrorResponse(c, 0, "Getting Value Without Sign!", nil)
+	}
+
+	for _, v := range ls {
+		ls_i, err := node.FilesLs(context.Background(), "/"+folder_name+sep+sign_key+"/"+v.Name)
+
+		if err != nil {
+			return nil, ErrorResponse(c, 0, err.Error(), nil)
+		}
+		temp_val := []string{}
+		for _, s := range ls_i {
+			stat, err := node.FilesStat(context.Background(), "/"+folder_name+sep+sign_key+"/"+v.Name+"/"+s.Name)
+			if err != nil {
+				return nil, ErrorResponse(c, 0, err.Error(), nil)
+			}
+			temp_val = append(temp_val, stat.Hash)
+		}
+		my_map[v.Name] = temp_val
+	}
+
+	return my_map, nil
 }
 
 func main() {
@@ -236,8 +275,8 @@ func main() {
 		return c.Blob(resp.StatusCode, resp.Header.Get("Content-Type"), body)
 	})
 
-	e.POST("/re", func(c echo.Context) error {
-		hash := c.FormValue("hash")
+	e.GET("/re/:id", func(c echo.Context) error {
+		hash := c.Param("id")
 		targetPort := "8080"
 		targetURL := "http://localhost:" + targetPort + "/ipfs/" + hash
 		resp, err := http.Get(targetURL)
@@ -269,6 +308,14 @@ func main() {
 
 	e.POST("/get", func(c echo.Context) error {
 		main, err := get_from_ipfs(c)
+		if err != nil {
+			return err
+		}
+		return SuccessResponse(c, 1, "Got Data", main)
+	})
+
+	e.POST("/get/all", func(c echo.Context) error {
+		main, err := get_from_ipfs_all(c)
 		if err != nil {
 			return err
 		}
