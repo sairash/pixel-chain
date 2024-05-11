@@ -5,9 +5,7 @@ import Avatar from "boring-avatars";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
 
-const PovPage = () => {
-  const { id, name } = useParams();
-
+const PovMain = ({ id, name }) => {
   const [povData, setPovData] = useState(null);
   const [event, setEvent] = useState(null);
 
@@ -37,21 +35,18 @@ const PovPage = () => {
       {povData ? (
         <>
           <div className="w-full max-w-5xl mx-auto py-8 md:py-12 md:px-10 xl:px-6 lg:py-16">
-                <Button variant={"link"} size={"icon"} className="absolute top--2 h-10 w-20">
-                  <ChevronLeft />
-                </Button>
+            <Button
+              variant={"link"}
+              size={"icon"}
+              className="absolute top--2 h-10 w-20"
+            >
+              <ChevronLeft />
+            </Button>
             <div className="flex flex-col md:flex-row items-center justify-between mb-8 md:mb-12">
               <div className="flex  items-center space-x-4">
-              {/* <a
-            className="inline-flex items-center space-x-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-            href="#"
-          >
-            <ArrowLeft className="h-5 w-5" />
-
-          </a> */}
                 <Avatar
                   size={40}
-                  name="Maria Mitchell"
+                  name={name}
                   variant="beam"
                   colors={[
                     "#92A1C6",
@@ -73,8 +68,9 @@ const PovPage = () => {
               </h5>
             </div>
             <div className="grid justify-items-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {povData.data[`${name}`].map((image) => (
+              {povData.data[`${name}`].map((image, index) => (
                 <img
+                  key={index}
                   alt="User Photo"
                   className="rounded-lg object-cover"
                   height={400}
@@ -96,4 +92,4 @@ const PovPage = () => {
   );
 };
 
-export default PovPage;
+export default PovMain;
