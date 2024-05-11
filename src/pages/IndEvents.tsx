@@ -140,37 +140,44 @@ navigate('events/id/name')
 
 
   return (
-    <div className="pb-20">
+    <div className="pb-20 px-3 py-3">
       <div className="div text-left px-2  ">
       <button onClick={() => navigate('/events')} className="text-3xl
-       bg-blue-100 hover:bg-blue-200  px-1 py-1 rounded-full transition-all pr-2 
+       bg-[#844f9f] hover:bg-[#874fa1] text-white  px-1 py-1 rounded-full transition-all pr-2 
         duration-500">
-      <ChevronLeft />
+      <ChevronLeft  className="hover:pr-2 transition-all duration-500"/>
       </button>
       </div>
       <div className="event-name text-left font-serif  pt-3 pb-3">
-        <p className="text-4xl text-blue-500 italic">Event  Name {name}</p> 
-        <p className="pl-2 pt-3 text-green-500">From {date1 && date1}</p>
-         <p className="pl-2  pt-1 text-green-500">To {date2 && date2}</p>
+        <p className="text-4xl bg-gradient-to-r from-purple-600 via-yellow-600 font-bold
+         inline-block to-indigo-500 text-transparent bg-clip-text italic">Event  Name {name}</p> 
+         <div className="date ">
+        <p className="pl-2 pt-3 text-green-500 bg-gradient-to-r from-yellow-600  font-bold
+         inline-block to-purple-500 text-transparent bg-clip-text text-xl ">From {date1 && date1}</p>
+         <br />
+
+         <p className="pl-2  pt-1 text-green-500 bg-gradient-to-r from-purple-600 font-bold
+         inline-block to-orange-500 text-transparent bg-clip-text text-xl 
+         ">To {date2 && date2}</p>
+         </div>
        </div>
        {/* my photos  */}
-       <div className="imgs flex flex-wrap  gap-1">
+       <div className="imgs flex flex-wrap justify-center  gap-1">
        {myphotos &&
        imgs && imgs.map((img) =>(
         <button>
-
-          <img src={img} alt="" className="w-32 lg:w-80 border border-gray-300 rounded-lg" />
+          <img src={img} alt="" className="w-52 lg:w-80 border border-purple-300 rounded-lg" />
         </button>
       )) 
     }
     
     </div>
        {allphotos &&
-       <div className="  flex  flex-wrap gap-1">
+       <div className="  flex  flex-wrap justify-center gap-[2px]">
               {imgs.map((img) => (
-             <div onClick={individualPov} className="div border-gray-200 border relative ">
-              <p className="absolute bottom-2 left-2 ">Bhuwan</p>
-               <img src={img} className="w-32 lg:w-80  rounded-lg" />
+             <div  className="div border-purple-500 rounded-md border relative ">
+              <p className="absolute bottom-2 left-2 text-white ">Bhuwan</p>
+               <img src={img} className="w-52 lg:w-80  rounded-lg  cursor-pointer" />
             </div>
            ))}
        </div>
@@ -178,11 +185,13 @@ navigate('events/id/name')
 
       
       {choosePhotos && 
-        <div className="flex flex-wrap gap-1">
+        <div className="flex flex-wrap gap-[2px] justify-center">
            {imgs.map((img) => (
-             <div onClick={individualPov} className="div border-gray-200 border relative ">
-              <p className="absolute bottom-2 left-2 ">Bhuwan</p>
-               <img src={img} className="w-32 lg:w-80 rounded-lg cursor-pointer" />
+             <div onClick={individualPov} className="div border-purple-500 rounded-lg border relative ">
+              <p className="absolute bottom-2 left-2  text-white">Bhuwan</p>
+               <img src={img} className="w-52 lg:w-80 rounded-lg cursor-pointer" />
+               <p className="bg-gray-500 bg-gradient-t rounded-lg
+               transition-all  opacity-15 hover:opacity-20 h-16 bottom-0 w-full absolute z-20"></p>
             </div>
            ))}
       </div>
@@ -191,12 +200,12 @@ navigate('events/id/name')
      <div className="buttons flex  justify-between fixed w-[400px] lg:w-[1200px] bottom-2 lg:bottom-2 px-5 py-2 mr-20 rounded-2xl">
 
     <Tabs defaultValue="my" className="w-full ">
-  <TabsList className="w-full flex justify-between  bg-blue-100 rounded-lg py-6">
-    <TabsTrigger value="my">
-    <button className=" rounded-xl px-2 py-1" onClick={myPhotos} >My Photos</button>
+  <TabsList className="w-full flex justify-between  bg-[#6a5375] text-white z-10  rounded-full px-1 py-6">
+    <TabsTrigger value="my" className=" data-[state=active]:bg-[#ffbf00] rounded-full">
+    <button className=" rounded-x; px-2 py-1" onClick={myPhotos} >My Photos</button>
         </TabsTrigger>
     <TabsTrigger value="all">
-    <button className=" rounded-md px-2 py-1" onClick={allPhotos} >All Photos</button>
+    <button className=" rounded-xl px-2 py-1" onClick={allPhotos} >All Photos</button>
     </TabsTrigger>
     <TabsTrigger value="pov">
     <button className="  rounded-md px-2 py-1" onClick={choosePov}>Choose a pov</button>
