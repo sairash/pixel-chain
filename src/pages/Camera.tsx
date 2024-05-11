@@ -262,7 +262,7 @@ const Camera = () => {
           <div>
             <button
               onClick={takePicture}
-              className=" capture z-30 rounded-full w-20 h-20   bg-slate-900 ring-4 "
+              className=" capture z-30 rounded-full w-20 h-20   bg-slate-900 hover:bg-white transition-all duration-500 ring-4 "
             ></button>
           </div>
           <div className="switch">
