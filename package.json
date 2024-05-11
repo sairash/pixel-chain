@@ -21,6 +21,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "ethers": "^6.12.1",
+    "hammerjs": "^2.0.8",
     "localforage": "^1.10.0",
     "lucide-react": "^0.378.0",
     "match-sorter": "^6.3.4",
@@ -29,12 +30,14 @@
     "react-dom": "^18.2.0",
     "react-loader-spinner": "^6.1.6",
     "react-router-dom": "^6.23.0",
+    "react-swipeable": "^7.0.1",
     "sort-by": "^1.2.0",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@capacitor/cli": "^6.0.0",
+    "@types/hammerjs": "^2.0.45",
     "@types/node": "^20.12.11",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",

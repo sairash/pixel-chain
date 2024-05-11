@@ -12,7 +12,16 @@ declare global {
 
 const ScanQrPage = () => {
   const [events, setEvents] = useState<
-    { id: string; name: string; expiry: string; start: string }[] | null
+    | {
+        id: string;
+        name: string;
+        expiry: string;
+        start: string;
+        owner: string;
+        sep: string;
+        signKey: string;
+      }[]
+    | null
   >();
   const [error, setError] = useState(false);
 
@@ -68,13 +77,16 @@ const ScanQrPage = () => {
                         name: data[5],
                         expiry: data[4],
                         start: data[3],
+                        owner: data[0],
+                        sep: data[1],
+                        signKey: data[2],
                       });
 
                       // filter if id exists
                       if (!events.find((event) => event.id === result)) {
                         localStorage.setItem("events", JSON.stringify(events));
                         if (data[4] > Date.now()) {
-                          navigator(`/camera`);
+                          navigator(`/camera/${result}`);
                         } else {
                           navigator(`/events/${result}`);
                         }
@@ -88,12 +100,15 @@ const ScanQrPage = () => {
                             name: data[5],
                             expiry: data[4],
                             start: data[3],
+                            owner: data[0],
+                            sep: data[1],
+                            signKey: data[2],
                           },
                         ])
                       );
 
                       if (data[4] > Date.now()) {
-                        navigator(`/camera`);
+                        navigator(`/camera/${result}`);
                       } else {
                         navigator(`/events/${result}`);
                       }
@@ -124,13 +139,16 @@ const ScanQrPage = () => {
                         name: data[5],
                         expiry: data[4],
                         start: data[3],
+                        owner: data[0],
+                        sep: data[1],
+                        signKey: data[2],
                       });
 
                       // filter if id exists
                       if (!events.find((event) => event.id === result)) {
                         localStorage.setItem("events", JSON.stringify(events));
                         if (data[4] > Date.now()) {
-                          navigator(`/camera`);
+                          navigator(`/camera/${result}`);
                         } else {
                           navigator(`/events/${result}`);
                         }
@@ -146,12 +164,15 @@ const ScanQrPage = () => {
                             name: data[5],
                             expiry: data[4],
                             start: data[3],
+                            owner: data[0],
+                            sep: data[1],
+                            signKey: data[2],
                           },
                         ])
                       );
 
                       if (data[4] > Date.now()) {
-                        navigator(`/camera`);
+                        navigator(`/camera/${result}`);
                       } else {
                         navigator(`/events/${result}`);
                       }
