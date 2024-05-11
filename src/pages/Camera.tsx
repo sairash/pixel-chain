@@ -1,8 +1,12 @@
 import { Images, Plus, SwitchCamera, Zap } from "lucide-react";
 import { ZapOff } from "lucide-react";
 import { useRef, useEffect } from "react";
-import { ChevronRight, ChevronLeft } from "lucide-react";
+
 import { useState } from "react";
+import { dataURLtoFile, genRanHex, send_file } from "@/lib/utils";
+import { useParams } from "react-router-dom";
+
+import Hammer from "hammerjs";
 
 declare global {
   interface Navigator {
@@ -11,6 +15,49 @@ declare global {
 }
 
 const Camera = () => {
+  const { id } = useParams();
+
+  const hammerRef = useRef(null);
+
+  useEffect(() => {
+    const hammer = new Hammer(hammerRef.current);
+
+    hammer.on("swipe", (event) => {
+      // Check if the swipe direction is right
+      if (event.direction === Hammer.DIRECTION_RIGHT) {
+        console.log("Right swipe detected!");
+        handleFilterSwap("right");
+      }
+
+      if (event.direction === Hammer.DIRECTION_LEFT) {
+        console.log("left swipe detected!");
+        handleFilterSwap("left");
+      }
+    });
+
+    return () => {
+      hammer.off("swipe");
+      hammer.destroy();
+    };
+  }, []);
+
+  const [event, setEvent] = useState({});
+  const [username, setUsername] = useState<string | null>();
+
+  useEffect(() => {
+    localStorage.getItem("username") &&
+      setUsername(localStorage.getItem("username"));
+    console.log(username);
+  }, [username]);
+
+  useEffect(() => {
+    // @ts-ignore
+    const e: [] = JSON.parse(localStorage.getItem("events"));
+    const found = e.find((eve) => eve.id === id);
+    setEvent(found);
+    console.log(found);
+  }, [id]);
+
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [base64Photo, setBase64Photo] = useState<string | null>(null);
   const videoRef = useRef<any>(null);
@@ -132,7 +179,7 @@ const Camera = () => {
     }
   };
 
-  const takePicture = () => {
+  const takePicture = async () => {
     if (videoRef.current) {
       const canvas = document.createElement("canvas");
       canvas.width = videoRef.current.videoWidth;
@@ -142,6 +189,13 @@ const Camera = () => {
         context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
         const dataURL = canvas.toDataURL("image/png");
         setBase64Photo(dataURL);
+        await send_file(
+          dataURLtoFile(dataURL, `${genRanHex(12)}.png`),
+          event.id,
+          event.sep,
+          event.signKey,
+          username
+        );
       }
     }
   };
@@ -174,7 +228,7 @@ const Camera = () => {
   }
 
   return (
-    <div className="main flex flex-col h-screen">
+    <div className="  main flex flex-col h-screen">
       <div className="header  bg-gradient-to-b from-indigo-300  absolute w-screen  ">
         <div className="flex p-4  flex-row justify-between">
           <div className="close">
@@ -188,91 +242,12 @@ const Camera = () => {
           </button>
         </div>
       </div>
-      <div className="feed ">
-        <div>
-          <div
-            className="sm:mt-3 mt-14"
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              marginBottom: "10px",
-            }}
-          >
-            <div className="  relative grid">
-              <video
-                ref={videoRef}
-                autoPlay
-                style={{ transition: "filter 0.3s ease-in-out" }}
-              ></video>
-              <div
-                className="   absolute top-0 "
-                style={{ width: "100%", height: "100%" }}
-              >
-                <div
-                  className="flex justify-between  "
-                  style={{ height: "100%" }}
-                >
-                  <div
-                    className=" w-1/12 flex justify-center flex-col  z-50  items-center"
-                    style={{ height: "100%" }}
-                  >
-                    <button
-                      className=" bg-black"
-                      onClick={() => handleFilterSwap("left")}
-                    >
-                      <ChevronLeft color="white" size={50} />
-                    </button>
-                  </div>
-                  <div
-                    className=" w-1/12 flex justify-center z-50 flex-col items-center"
-                    style={{ height: "100%" }}
-                  >
-                    <button
-                      className="bg-black"
-                      onClick={() => handleFilterSwap("right")}
-                    >
-                      {" "}
-                      <ChevronRight color="white" size={50} />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              marginBottom: "10px",
-            }}
-          ></div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              marginBottom: "10px",
-            }}
-          >
-            {/* <button
-              onClick={takePicture}
-              className=" capture z-30 rounded-full w-20 h-20   bg-slate-900 ring-4 "
-            ></button> */}
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              marginTop: "10px",
-            }}
-          >
-            {base64Photo && (
-              <div>
-                <p>Base64 Image:</p>
-                <div>{base64Photo}</div>
-              </div>
-            )}
-          </div>
-        </div>
+      <div id="feed" ref={hammerRef} className="feed   m-auto">
+        <video
+          ref={videoRef}
+          autoPlay
+          style={{ transition: "filter 0.3s ease-in-out" }}
+        ></video>
       </div>
 
       <div className=" bg-gradient-to-t from-purple-200  footer absolute  w-screen bottom-0">

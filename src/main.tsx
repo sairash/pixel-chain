@@ -18,9 +18,10 @@ const router = createBrowserRouter([
   },
   { path: "/events", element: <SecondPage /> },
   { path: "/events/:id", element: <IndEvents /> },
+  // { path: "/events/:id/name", element:<MyPovPage/> },
   { path: "scan", element: <ScanQrPage /> },
   { path: "/generateQr", element: <GenerateQr /> },
-  { path: "/camera", element: <Camera /> },
+  { path: "/camera/:id", element: <Camera /> },
 ]);
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
