@@ -12,7 +12,8 @@ import GenerateQr from "./pages/GenerateQr.tsx";
 import Camera from "./pages/Camera.tsx";
 import Memories from "./pages/Memories.tsx";
 import PovPage from "./pages/PovPage.tsx";
-import { MlCamera } from "./pages/MlCamera.tsx";
+import MlCamera from "./pages/MlCamera.tsx";
+
 
 
 const router = createBrowserRouter([
