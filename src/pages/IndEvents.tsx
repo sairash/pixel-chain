@@ -143,39 +143,35 @@ navigate('events/id/name')
     <div className="pb-20 px-3 py-3">
       <div className="div text-left px-2  ">
       <button onClick={() => navigate('/events')} className="text-3xl
-       bg-[#844f9f] hover:bg-[#874fa1] text-white  px-1 py-1 rounded-full transition-all pr-2 
+       bg-[#6633cc] hover:bg-[#6c32e1] text-white  px-1 py-1 rounded-full transition-all pr-2 
         duration-500">
       <ChevronLeft  className="hover:pr-2 transition-all duration-500"/>
       </button>
       </div>
       <div className="event-name text-left font-serif  pt-3 pb-3">
-        <p className="text-4xl bg-gradient-to-r from-purple-600 via-yellow-600 font-bold
-         inline-block to-indigo-500 text-transparent bg-clip-text italic">Event  Name {name}</p> 
-         <div className="date ">
-        <p className="pl-2 pt-3 text-green-500 bg-gradient-to-r from-yellow-600  font-bold
-         inline-block to-purple-500 text-transparent bg-clip-text text-xl ">From {date1 && date1}</p>
-         <br />
-
-         <p className="pl-2  pt-1 text-green-500 bg-gradient-to-r from-purple-600 font-bold
-         inline-block to-orange-500 text-transparent bg-clip-text text-xl 
+        <p className="text-4xl bg-gradient-to-r bg-[#6633cc]  font-bold
+         inline-block text-transparent bg-clip-text italic">Event  Name {name}</p> 
+         <div className="date flex gap-3 items-center  pt-2 pb-1 ">
+        <p className="  bg-gradient-to-r text-[#f5c144]     text-lg ">From {date1 && date1}</p>
+         <p className=" text-[#f5c144] text-lg 
          ">To {date2 && date2}</p>
          </div>
        </div>
        {/* my photos  */}
-       <div className="imgs flex flex-wrap justify-center  gap-1">
+       <div className="imgs flex flex-wrap justify-center   gap-3">
        {myphotos &&
        imgs && imgs.map((img) =>(
-        <button>
-          <img src={img} alt="" className="w-52 lg:w-80 border border-purple-300 rounded-lg" />
+        <button className="shadow-xl">
+          <img src={img} alt="" className="w-52 lg:w-80 border  border-purple-500 rounded-lg" />
         </button>
       )) 
     }
     
     </div>
        {allphotos &&
-       <div className="  flex  flex-wrap justify-center gap-[2px]">
+       <div className="  flex  flex-wrap justify-center gap-3 ">
               {imgs.map((img) => (
-             <div  className="div border-purple-500 rounded-md border relative ">
+             <div  className="div border-purple-500 rounded-lg border relative shadow-xl ">
               <p className="absolute bottom-2 left-2 text-white ">Bhuwan</p>
                <img src={img} className="w-52 lg:w-80  rounded-lg  cursor-pointer" />
             </div>
@@ -185,22 +181,22 @@ navigate('events/id/name')
 
       
       {choosePhotos && 
-        <div className="flex flex-wrap gap-[2px] justify-center">
+        <div className="flex flex-wrap gap-3 justify-center">
            {imgs.map((img) => (
              <div onClick={individualPov} className="div border-purple-500 rounded-lg border relative ">
               <p className="absolute bottom-2 left-2  text-white">Bhuwan</p>
                <img src={img} className="w-52 lg:w-80 rounded-lg cursor-pointer" />
-               <p className="bg-gray-500 bg-gradient-t rounded-lg
-               transition-all  opacity-15 hover:opacity-20 h-16 bottom-0 w-full absolute z-20"></p>
+               <p className="bg-gradient-to-t  from-gray-400 to-gray-500 rounded-lg
+               transition-all  opacity-10  h-14 bottom-0 w-full absolute z-20"></p>
             </div>
            ))}
       </div>
      }
      {/* tab */}
-     <div className="buttons flex  justify-between fixed w-[400px] lg:w-[1200px] bottom-2 lg:bottom-2 px-5 py-2 mr-20 rounded-2xl">
+     <div className="buttons flex  justify-between fixed  w-full bottom-[1px] right-1  rounded-2xl">
 
     <Tabs defaultValue="my" className="w-full ">
-  <TabsList className="w-full flex justify-between  bg-[#6a5375] text-white z-10  rounded-full px-1 py-6">
+  <TabsList className="w-full flex justify-between  bg-[#6633cc] text-white z-10  rounded-full px-1 py-6">
     <TabsTrigger value="my" className=" data-[state=active]:bg-[#ffbf00] rounded-full">
     <button className=" rounded-x; px-2 py-1" onClick={myPhotos} >My Photos</button>
         </TabsTrigger>
@@ -208,7 +204,7 @@ navigate('events/id/name')
     <button className=" rounded-xl px-2 py-1" onClick={allPhotos} >All Photos</button>
     </TabsTrigger>
     <TabsTrigger value="pov">
-    <button className="  rounded-md px-2 py-1" onClick={choosePov}>Choose a pov</button>
+    <button className="  rounded-md px-2 py-1" onClick={choosePov}>Choose a Pov</button>
     </TabsTrigger>
   </TabsList>
   <TabsContent value="account">Make changes to your account here.</TabsContent>

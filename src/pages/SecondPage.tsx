@@ -13,6 +13,9 @@ export default function SecondPage() {
   const createEvent = () => {
     navigator("/scan");
   };
+  const yourMemories = () =>{
+    navigator("/memories")
+  }
   const ename = localStorage.getItem('events')!
   const name:[] = JSON.parse(ename)
 
@@ -36,35 +39,33 @@ const goToEvents =(id:any) =>{
 }
  
   return (
-    <div className="div px-3 py-3">
+    <div className="div px-3 py-5">
       <div className="name text-start">
         <p className="text-2xl  bg-gradient-to-r bg-[#6434cb]  font-bold
-         inline-block text-transparent bg-clip-text transition-all font-serif">
+         inline-block text-transparent pl-5 bg-clip-text transition-all  px-1 font-serif">
           Your past Events
            </p>
 
       </div>
       <div className="two">
-      <div className="div mt-5  text-left text-3xl text-[#f3c344] rounded-md
-       hover:bg-[#fff6de]  pl-2  cursor-pointer w-44 pb-2 border-purple-700 font-bold
-       border-dashed border">
-        <p>Memories</p>
+      <div  className="div mt-10 flex justify-center pr-10  text-left text-3xl text-[#4d4d4d] rounded-md   pb-2 border-purple-700 font-bold
+       border-dashed  ">
+        <p onClick={yourMemories} className="border-dashed cursor-pointer border-2  border-[#4d4d4d] px-20 lg:px-28  py-3 lg:py-5 rounded-md  hover:bg-gray-200"> Your Memories</p>
       </div>
-      <div className="div mt-5  text-left text-3xl text-[#f3c344] rounded-md
-         pl-2  cursor-pointer w-28 pb-2 border-purple-700 font-bold
-       border-dashed border">
-        <p>Events</p>
+      <div className="div mt-10  text-left text-2xl text-black rounded-md
+         pl-5  cursor-pointer w-28  border-purple-700  text-bold">
+        <p className="font-semibold">Events</p>
       </div>
     
          </div>
-      <div className="event-list flex flex-col gap-10 pt-10 text-xl text-left font-serif">
+      <div className="event-list flex flex-col gap-10 pt-4 px-4 text-xl text-left font-serif">
         {pastEvent &&
           name &&
           name.map((name1:any) => (
             <button key={name1.id}
                onClick={(e) =>goToEvents(name1.id)}
-              className=" text-black bg-[#f7f9eb] shadow-md py-5
-               duration-500 rounded-md pl-1 flex gap-5"
+              className=" text-black bg-[#f7f9eb] hover:bg-[#f1f7cd] shadow-md py-5 
+               duration-500 rounded-xl pl-1 flex gap-5"
             >
               <Avatar 
                 size={40}
